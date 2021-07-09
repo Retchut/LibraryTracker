@@ -9,6 +9,7 @@ public class Card {
     private LANGUAGE language;
     private boolean firstEd;
     private int amount;
+    private double value;
 
     //Getters
     public String getName(){ return this.name; }
@@ -17,6 +18,7 @@ public class Card {
     public LANGUAGE getLanguage(){ return this.language; }
     public boolean getFirstEd(){ return this.firstEd; }
     public int getAmount(){ return this.amount; }
+    public double getValue(){ return this.value; }
 
     //Setters
     public void setName(String newName){ this.name = newName; }
@@ -25,6 +27,7 @@ public class Card {
     public void setLanguage(LANGUAGE newLanguage){ this.language = newLanguage; }
     public void setFirstEd(boolean newFirstEd){ this.firstEd = newFirstEd; }
     public void setAmount(int newAmount) { this.amount = newAmount; }
+    public void setValue(double newValue) { this.value = newValue; }
 
     enum CONDITION { M, NM, EX, GD, LP, PL, P}
     enum LANGUAGE {ENGLISH, FRENCH, GERMAN, SPANISH, ITALIAN, PORTUGUESE}
@@ -39,6 +42,7 @@ public class Card {
         setLanguage(language);
         setFirstEd(firstEd);
         setAmount(amount);
+        setValue(0.0);
     }
 
     /**
@@ -52,6 +56,7 @@ public class Card {
         System.out.println("Language: " + getLanguage());
         System.out.println("Is First Ed: " + getFirstEd());
         System.out.println("Amount: " + getAmount());
+        System.out.println("Value: " + getValue());
     }
 
     /**
@@ -160,5 +165,16 @@ public class Card {
                 scanner.nextLine();
             }
         }
+    }
+
+    public int updateValue(){
+        Crawler crawler = new Crawler(this.name, this.expansion);
+
+        double newValue = crawler.crawl();
+        if(newValue == 0.0)
+            return 1;
+        
+        setValue(newValue);
+        return 0;
     }
 }
